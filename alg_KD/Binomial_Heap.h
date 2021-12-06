@@ -20,7 +20,7 @@ public:
 	inline int getSize() { return size; }
 	inline Node* getRoot() { return root; }
 	void inorder(Node* root);
-	void print(Node* root, int depth, bool sibling);
+	void print(Node* root, int depth=0, bool sibling=false);
 
 	Binomial_Heap() : size(0), root(nullptr) {};
 

@@ -162,7 +162,7 @@ void deleteHeap(Node* root)
 int Binomial_Heap::getHeight()
 {
 	if (this->size)
-		return ceil(log2(this->size));
+		return floor(log2(this->size));
 	return 0;
 }
 
@@ -238,24 +238,29 @@ void binomial_heap_decrease_key(Binomial_Heap* H, Node* ptr, int value)
 Node* binomial_heap_extract_min(Binomial_Heap*& H) 
 {
 	Node* min = binomial_heap_minimum(H);
+	Node* tmp = H->getRoot();						//zmienna pozwalalaj¹ca na poruszanie siê po liœcie korzeni kopca H; wskaŸnik do powsta³ej listy korzeni kopca H`
+	Node* secondRoot = H->getRoot()->getSibling();	//Drugi korzeñ na liœcie, potrzebny jeœli usuwan¹ wartoœci¹ jest pierwszy korzeñ
+	Node* minCh = min->getChild();					//wskaŸnik do poruszania siê po liœcie synów minimalnego korzenia
+	std::vector<Node*> tabN;						//wektor wskaŸników na wêz³y bêd¹ce dzieæmi minimalnego korzenia 
 
-	Node* tmp = H->getRoot();	//zmienna pozwalalaj¹ca na poruszanie siê po liœcie korzeni kopca H; wskaŸnik do powsta³ej listy korzeni kopca H`
-
-	Node* minCh = min->getChild(); //wskaŸnik do poruszania siê po liœcie synów minimalnego korzenia
-
-	min->setChild(nullptr); //zerwanie po³aczenia minimalnego wêz³a z jego synami
-
-	std::vector<Node*> tabN; //wektor wskaŸników na wêz³y bêd¹ce dzieæmi minimalnego korzenia 
+	min->setChild(nullptr);							//zerwanie po³aczenia minimalnego wêz³a z jego synami
 
 	while (tmp->getSibling() != min && tmp != min) {	
 		tmp = tmp->getSibling();
 	}
-	tmp->setSibling(nullptr);	//usuniêcie korzenia o minimalnej wartoœci wêz³a z listy korzeni
 
+	Node* previous = H->getRoot();	//wêze³ znajduj¹cy siê bezpoœrednio przed wêz³em minimalnym
 
+	//Zmiana wskaŸnika brata przed wêz³em minimalnym na liœcie korzeni, ¿eby nie by³o ¿adnych dziur po usuniêciu korzenia ze œrodka listy
+	while (previous->getSibling() != nullptr) {
+		if (previous->getSibling() == min) {
+			previous->setSibling(min->getSibling());
+			break;
+		}
+		previous = previous->getSibling();
+	}
 
 	Binomial_Heap* newHeap = make_binomial_heap();
-
 
 
 	while (minCh != nullptr) {		//dodanie listy dzieci korzenia minimalnego do wektora
@@ -264,32 +269,28 @@ Node* binomial_heap_extract_min(Binomial_Heap*& H)
 		minCh = minCh->getSibling();
 	}
 
-	for (int i = 0; i < tabN.size(); i++)
-	{
-		std::cout << tabN[i]->getValue() << " ";
-	}
-	std::cout << std::endl;
+	//for (int i = 0; i < tabN.size(); i++)
+	//{
+	//	std::cout << tabN[i]->getValue() << " ";
+	//}
+	//std::cout << std::endl;
 
 	for (int i = tabN.size() - 1; i > 0; i--) {		//odwrócenie kolejnoœcie elementów na liœcie synów wêz³a minimalnego
-
 		tabN[i]->setSibling(tabN[i - 1]);
 	}
-
 	tabN[0]->setSibling(nullptr); //w przyk³adzie z naszej prezentacji jest to wêze³ o wartoœci 4 i ustawiamy tak wskaŸnik ¿eby nie mia³ brata po prawej stronie
-
-	tmp = tabN[tabN.size()-1];
-
-
 	
+	tmp = tabN[tabN.size()-1];
 	newHeap->setRoot(tmp);
-
 	newHeap->setSize(pow(2, min->getDegree()) - 1);
 
 	Binomial_Heap* heap = new Binomial_Heap();
 	if (min != H->getRoot())
 		heap = H;
-	else							//jeœli kopiec dwumianowy sk³ada siê z jednego drzewa dwumianowego
-		heap->setRoot(nullptr);
+	else if (secondRoot != nullptr)				//jeœli g³owa jest najmniejszym wêz³em							
+		heap->setRoot(secondRoot);
+	else
+		heap->setRoot(nullptr);					//jeœli kopiec dwumianowy sk³ada siê z jednego drzewa dwumianowego
 
 	int size = H->getSize() - 1;
 

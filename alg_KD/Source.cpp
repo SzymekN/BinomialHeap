@@ -46,7 +46,7 @@ int main()
 	H1 = binomial_heap_insert(H1, 18);
 
 	cout << "Kopiec H1: " << endl;
-	H1->print(H1->getRoot(),0,false);
+	H1->print(H1->getRoot());
 
 
 	//DECREASE KEY TEST
@@ -55,20 +55,20 @@ int main()
 	Node* decrease_test = H1->getRoot()->getSibling()->getSibling()->getChild()->getChild()->getChild();
 	binomial_heap_decrease_key(H1, decrease_test, 2);
 	cout << "\nKopiec H1 po zmianie wartoœci klucza:\n";
-	H1->print(H1->getRoot(), 0, false);
+	H1->print(H1->getRoot());
 
 
 	//trzeci korzeñ na liœcie, z wartoœci¹ 1
 	decrease_test = H1->getRoot()->getSibling()->getSibling();
 	cout << "\nKopiec H1 próba zmiany klucza na wiêkszy:\n";
 	binomial_heap_decrease_key(H1, decrease_test, 5);
-	H1->print(H1->getRoot(), 0, false);
+	H1->print(H1->getRoot());
 
 	//nullptr przekazany do funkcji
 	decrease_test = nullptr;
 	cout << "\nKopiec H1 próba zmiany klucza na wiêkszy:\n";
 	binomial_heap_decrease_key(H1, decrease_test, 5);
-	H1->print(H1->getRoot(), 0, false);
+	H1->print(H1->getRoot());
 
 	cout << "\n\nKorzeñ kopca H1: " << H1->getRoot()->getValue() << endl;
 	cout << "Rozmiar kopca H1: " << H1->getSize() << endl;
@@ -76,22 +76,41 @@ int main()
 
 	//EXTRACT MIN TEST
 	int min;
+
+	//usuwanie z ostatniego drzewa
 	min = binomial_heap_extract_min(H1)->getValue();
 	cout << "\nUsuniêta wartoœæ: " << min;
 	cout << "\nKopiec H1: " << endl;
-	H1->print(H1->getRoot(), 0, false);
+	H1->print(H1->getRoot());
 
+	//usuwanie z ostatniego drzewa
 	min = binomial_heap_extract_min(H1)->getValue();
 	cout<<"\nUsuniêta wartoœæ: "<<min;
 	cout << "\nKopiec H1: " << endl;
-	H1->print(H1->getRoot(), 0, false);
+	H1->print(H1->getRoot());
 
-	cout << "\n\n\nTESST";
-
+	//usuwanie z pierwszego drzewa
 	min = binomial_heap_extract_min(H1)->getValue();
-	cout<<"\nUsuniêta wartoœæ: "<<min;
+	cout << "\nUsuniêta wartoœæ: " << min;
 	cout << "\nKopiec H1: " << endl;
-	H1->print(H1->getRoot(), 0, false);
+	H1->print(H1->getRoot());
+
+	cout << "\nKopiec H1 - usuwanie korzenia, ze œrodkowego drzewa: " << endl;
+	H1 = binomial_heap_insert(H1, 1);
+	H1 = binomial_heap_insert(H1, 5);
+	H1->print(H1->getRoot());
+
+	//usuwanie z drugiego drzewa
+	min = binomial_heap_extract_min(H1)->getValue();
+	cout << "\nUsuniêta wartoœæ: " << min;
+	cout << "\nKopiec H1: " << endl;
+	H1->print(H1->getRoot());
+
+	//usuwanie z ostatniego drzewa
+	min = binomial_heap_extract_min(H1)->getValue();
+	cout << "\nUsuniêta wartoœæ: " << min;
+	cout << "\nKopiec H1: " << endl;
+	H1->print(H1->getRoot());
 
 
 	Binomial_Heap* H2 = make_binomial_heap();
@@ -112,11 +131,11 @@ int main()
 
 	cout << "Kopiec H2: " << endl;
 
-	H2->inorder(H2->getRoot());
+	H2->print(H2->getRoot());
 
 	Node* delete_test = H2->getRoot()->getChild(); //wskaŸnik na wêze³ przechowuj¹cy wartoœc 4 tak jak w naszym pdfie
 
 	binomial_heap_delete(H2,delete_test);
 	cout << endl;
-	H2->inorder(H2->getRoot());
+	H2->print(H2->getRoot());
 }
