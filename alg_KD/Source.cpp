@@ -148,8 +148,6 @@ int main()
 	H2 = binomial_heap_insert(H2, 15);
 	H2 = binomial_heap_insert(H2, 20);
 
-	cout <<endl<<endl<< "Funkcja test zliczajaca liczbe krokow dla wykonanych wczesniej funkcji." << endl;
-	test();
 	cout << endl << endl;
 	cout << "Kopiec H2: " << endl;
 
@@ -161,6 +159,9 @@ int main()
 	cout << "Kopiec H2:" << endl;
 	binomial_heap_delete(H2, delete_test);
 	H2->print(H2->getRoot());
+
+	cout << endl << endl << "Funkcja test zliczajaca liczbe krokow dla wykonanych wczesniej funkcji." << endl;
+	test();
 }
 
 void test() {
@@ -168,6 +169,7 @@ void test() {
 	int cnt = 0;
 	Binomial_Heap_Complexity* H1 = make_binomial_heap_complexity();
 
+	cout << endl << "------------------ ZLICZANIE KROKÓW ------------------" << endl;
 	
 	H1 = binomial_heap_insert_complexity(H1, 1,cnt);
 	cout << "Liczba krokow dla wykonania pierwszej operacji insert: " << cnt << endl;
@@ -293,6 +295,10 @@ void test() {
 	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
 	cout << "Liczba krokow dla wykonania szostej operacji extract min: " << cnt << endl;
 	cnt = 0;
+
+	//usuwanie kopca
+	delete_heap_complexity(H1->getRoot(), cnt);
+	cout << "Liczba krokow dla usuwania kopca: " << cnt << endl;
 
 	cout << "Koniec wywolania funkcji 'Test'." << endl;
 }

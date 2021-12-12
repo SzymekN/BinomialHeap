@@ -26,7 +26,7 @@ public:
 Funkcja usuwa ca≥y kopiec
 @param root - Wskaünik do korzenia kopca
 */
-void delete_heap_complexity(Node* root);
+void delete_heap_complexity(Node* root, int& cnt);
 
 
 /*

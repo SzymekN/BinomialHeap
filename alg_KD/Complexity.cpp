@@ -100,12 +100,11 @@ Binomial_Heap_Complexity* binomial_heap_union_complexity(Binomial_Heap_Complexit
 
 	if (newHeap->getRoot() == nullptr) return newHeap;
 
-
-
 	Node* rootPrev = nullptr;
 	Node* root = newHeap->getRoot();
 	Node* rootNext = root->getSibling();
 
+	cnt++;
 	while (rootNext != nullptr)
 	{
 		cnt++;
@@ -155,11 +154,12 @@ Binomial_Heap_Complexity* binomial_heap_insert_complexity(Binomial_Heap_Complexi
 	return newHeap;
 }
 
-void delete_heap_complexity(Node* root)
+void delete_heap_complexity(Node* root, int& cnt)
 {
-	if (root->getChild() != nullptr) deleteHeap(root->getChild());
-	if (root->getSibling() != nullptr) deleteHeap(root->getSibling());
+	if (root->getChild() != nullptr) delete_heap_complexity(root->getChild(), cnt);
+	if (root->getSibling() != nullptr) delete_heap_complexity(root->getSibling(), cnt);
 
+	cnt++;
 	std::cout << "Deleting: " << root->getValue() << std::endl;
 	delete root;
 }
@@ -177,6 +177,7 @@ Node* binomial_heap_minimum_complexity(Binomial_Heap_Complexity* H, int& cnt)
 	Node* min_ptr = nullptr;
 	Node* root = H->getRoot();
 	int min = std::numeric_limits<int>::max();
+
 	cnt++;
 	while (root != nullptr) {
 		cnt++;
@@ -197,6 +198,7 @@ void binomial_heap_decrease_key_complexity(Binomial_Heap_Complexity* H, Node* pt
 	}
 	ptr->setValue(value);
 	Node* parent = ptr->getParent();
+
 	cnt++;
 	while (parent != nullptr and parent->getValue() > ptr->getValue()) {
 		cnt++;
@@ -216,6 +218,7 @@ Node* binomial_heap_extract_min_complexity(Binomial_Heap_Complexity*& H, int& cn
 	Node* secondRoot = H->getRoot()->getSibling();				//drugi korzeñ na liœcie, potrzebny jeœli usuwan¹ wartoœci¹ jest pierwszy korzeñ
 	min->setChild(nullptr);										//zerwanie po³aczenia minimalnego wêz³a z jego synami
 	std::vector<Node*> tabN;									//wektor wskaŸników na wêz³y bêd¹ce dzieæmi minimalnego korzenia 
+
 	cnt++;
 	while (tmp->getSibling() != min && tmp != min) {
 		cnt++;
@@ -223,20 +226,20 @@ Node* binomial_heap_extract_min_complexity(Binomial_Heap_Complexity*& H, int& cn
 	}
 	if (tmp != min) {
 		if (tmp->getSibling()->getSibling() == nullptr)
-			tmp->setSibling(nullptr);	//usuniêcie korzenia o minimalnej wartoœci wêz³a z listy korzeni (wskaŸnik brata ustawiany jest na nullptr, poniewa¿ usuwany korzeñ jest ostatnim na liœcie korzeni)
+			tmp->setSibling(nullptr);							//usuniêcie korzenia o minimalnej wartoœci wêz³a z listy korzeni (wskaŸnik brata ustawiany jest na nullptr, poniewa¿ usuwany korzeñ jest ostatnim na liœcie korzeni)
 		else
-			tmp->setSibling(tmp->getSibling()->getSibling()); //usuniêcie korzenia o minimalnej wartoœci wêz³a z listy korzeni( sytuacja, w której wêze³ usuwany nie jest ostatnim korzeniem na liœcie korzeni)
+			tmp->setSibling(tmp->getSibling()->getSibling());	//usuniêcie korzenia o minimalnej wartoœci wêz³a z listy korzeni( sytuacja, w której wêze³ usuwany nie jest ostatnim korzeniem na liœcie korzeni)
 	}
 
 
 	Binomial_Heap_Complexity* newHeap = make_binomial_heap_complexity();
 
-	if (minCh != nullptr) {			//jeœli usuwany wêze³ nie jest wêz³em o stopniu zerowym
+	if (minCh != nullptr) {				//jeœli usuwany wêze³ nie jest wêz³em o stopniu zerowym
 
 		while (minCh != nullptr) {		//dodanie listy dzieci korzenia minimalnego do wektora
 			cnt++;
 			tabN.push_back(minCh);
-			minCh->setParent(nullptr); //zerwanie po³¹czenia z minimalnym wêz³em
+			minCh->setParent(nullptr);	//zerwanie po³¹czenia z minimalnym wêz³em
 			minCh = minCh->getSibling();
 		}
 
