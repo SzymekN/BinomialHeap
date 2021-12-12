@@ -1,10 +1,10 @@
 #include <iostream>
 #include <locale>
 #include "Binomial_Heap.h"
-
+#include "Complexity.h"
 using namespace std;
 
-
+void test();
 
 int main()
 {
@@ -148,6 +148,9 @@ int main()
 	H2 = binomial_heap_insert(H2, 15);
 	H2 = binomial_heap_insert(H2, 20);
 
+	cout <<endl<<endl<< "Funkcja test zliczajaca liczbe krokow dla wykonanych wczesniej funkcji." << endl;
+	test();
+	cout << endl << endl;
 	cout << "Kopiec H2: " << endl;
 
 	H2->print(H2->getRoot());
@@ -158,4 +161,138 @@ int main()
 	cout << "Kopiec H2:" << endl;
 	binomial_heap_delete(H2, delete_test);
 	H2->print(H2->getRoot());
+}
+
+void test() {
+
+	int cnt = 0;
+	Binomial_Heap_Complexity* H1 = make_binomial_heap_complexity();
+
+	
+	H1 = binomial_heap_insert_complexity(H1, 1,cnt);
+	cout << "Liczba krokow dla wykonania pierwszej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 5, cnt);
+	cout << "Liczba krokow dla wykonania drugiej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 6, cnt);
+	cout << "Liczba krokow dla wykonania trzeciej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 9, cnt);
+	cout << "Liczba krokow dla wykonania czwartej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 4, cnt);
+	cout << "Liczba krokow dla wykonania piatej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 8, cnt);
+	cout << "Liczba krokow dla wykonania szostej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 15, cnt);
+	cout << "Liczba krokow dla wykonania siodmej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 20, cnt);
+	cout << "Liczba krokow dla wykonania osmej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 4, cnt);
+	cout << "Liczba krokow dla wykonania dziewiatej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 8, cnt);
+	cout << "Liczba krokow dla wykonania dziesiatej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 15, cnt);
+	cout << "Liczba krokow dla wykonania jedenastej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 20, cnt);
+	cout << "Liczba krokow dla wykonania dwunastej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 15, cnt);
+	cout << "Liczba krokow dla wykonania trzynastej operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 18, cnt);
+	cout << "Liczba krokow dla wykonania czternastej operacji insert: " << cnt << endl;
+	cnt = 0;
+
+
+	//DECREASE KEY TEST
+	cout << endl << "------------------ DECREASE KEY TEST ------------------" << endl;
+	//wg moich obliczeñ to powinien byæ wêze³ z wartoœci¹ 20 
+	Node* decrease_test = H1->getRoot()->getSibling()->getSibling()->getChild()->getChild()->getChild();
+	cout << "Zamiana wartosci wezle (znajdujacym sie w drzewie dwumianowym ktorego korzen jest ostatnim na liscie korzeni) z 20 na 2"<<endl;
+	binomial_heap_decrease_key_complexity(H1, decrease_test, 2, cnt);
+	cout << "Liczba krokow dla wykonania pierwszej operacji decrease key: " << cnt << endl;
+	cnt = 0;
+
+
+	//trzeci korzeñ na liœcie, z wartoœci¹ 1
+	decrease_test = H1->getRoot()->getSibling()->getSibling();
+	cout << "\nKopiec H1 próba zmiany klucza na wiêkszy (z 1 na 5):\n";
+	binomial_heap_decrease_key_complexity(H1, decrease_test, 5,cnt);
+	cout << "Liczba krokow dla wykonania drugiej operacji decrease key: " << cnt << endl;
+	cnt = 0;
+
+	//nullptr przekazany do funkcji
+	decrease_test = nullptr;
+	cout << "\nKopiec H1 próba zmiany klucza na wiêkszy(przekazywany wskaznik wskazuje na nullptr):\n";
+	binomial_heap_decrease_key_complexity(H1, decrease_test, 5,cnt);
+	cout << "Liczba krokow dla wykonania trzeciej operacji decrease key: " << cnt << endl;
+	cnt = 0;
+
+	//EXTRACT MIN TEST
+	int min;
+	cout << endl << "------------------ EXTRACT MIN TEST ------------------" << endl;
+	//usuwanie z ostatniego drzewa
+	cout << "Usuwanie wezla posiadajacego dzieci oraz bedacego korzeniem ostatnim na liscie korzeni." << endl;
+	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
+	cout << "Liczba krokow dla wykonania pierwszej operacji extract min: " << cnt << endl;
+	cnt = 0;
+
+	//usuwanie z ostatniego drzewa
+	cout << endl << "Usuwanie wezla posiadajacego dzieci oraz bedacego korzeniem ostatnim na liscie korzeni." << endl;
+	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
+	cout << "Liczba krokow dla wykonania drugiej operacji extract min: " << cnt << endl;
+	cnt = 0;
+
+	//usuwanie z ostatniego drzewa
+	cout << endl << "Usuwanie wezla posiadajacego dzieci oraz bedacego korzeniem pierwszym na liscie korzeni." << endl;
+	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
+	cout << "Liczba krokow dla wykonania trzeciej operacji extract min: " << cnt << endl;
+	cnt = 0;
+
+	//cout << "\nKopiec H1 - usuwanie korzenia, ze œrodkowego drzewa: " << endl;
+	cout << endl << "Usuwanie wezla posiadajacego dzieci oraz bedacego korzeniem drugim (œrodkowym) na liscie korzeni." << endl;
+	cout << "Kopiec H1 po dodaniu wezla o kluczu 1 oraz wezla o kluczu 5: " << endl;
+	H1 = binomial_heap_insert_complexity(H1, 1,cnt);
+	cout << "Liczba krokow dla wykonania operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 5,cnt);
+	cout << "Liczba krokow dla wykonania operacji insert: " << cnt << endl;
+	cnt = 0;
+
+	//usuwanie z drugiego drzewa
+	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
+	cout << "Liczba krokow dla wykonania czwartej operacji extract min: " << cnt << endl;
+	cnt = 0;
+
+	//usuwanie z ostatniego drzewa
+	cout << endl << "Usuwanie wezla posiadajacego dzieci oraz bedacego korzeniem drugim (ostatnim) na liscie korzeni." << endl;
+	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
+	cout << "Liczba krokow dla wykonania piatej operacji extract min: " << cnt << endl;
+	cnt = 0;
+
+	//cout << "\nKopiec H1 - usuwanie korzenia, z pierwszego drzewa: " << endl;
+	cout << endl << "Usuwanie wezla nieposiadajacego dzieci oraz bedacego korzeniem pierwszym na liscie korzeni." << endl;
+	cout << "Kopiec H1 po dodaniu wezla o kluczu 3 oraz wezla o kluczu 1: " << endl;
+	H1 = binomial_heap_insert_complexity(H1, 3,cnt);
+	cout << "Liczba krokow dla wykonania operacji insert: " << cnt << endl;
+	cnt = 0;
+	H1 = binomial_heap_insert_complexity(H1, 1,cnt);
+	cout << "Liczba krokow dla wykonania operacji insert: " << cnt << endl;
+	cnt = 0;
+
+	//usuwanie z pierwszego drzewa
+	min = binomial_heap_extract_min_complexity(H1,cnt)->getValue();
+	cout << "Liczba krokow dla wykonania szostej operacji extract min: " << cnt << endl;
+	cnt = 0;
+
+	cout << "Koniec wywolania funkcji 'Test'." << endl;
 }
