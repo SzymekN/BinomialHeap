@@ -11,7 +11,7 @@ class Node
     int degree;
 
 public:
-    Node(int value, Node* parent, Node* sibling, Node* child, int degree)
+    Node(int value, Node* parent = nullptr, Node* sibling = nullptr, Node* child = nullptr, int degree = 0)
     {
         this->value = value;
         this->parent = parent;
@@ -20,18 +20,17 @@ public:
         this->degree = degree;
     }
 
-
     int getValue();
     Node* getParent();
     Node* getSibling();
     Node* getChild();
     int getDegree();
 
-    void setValue(int v) { value = v; }
-    void setParent(Node* p) { parent = p; }
-    void setSibling(Node* s) { sibling = s; }
-    void setChild(Node* c) { child = c; }
-    void setDegree(int d) { degree = d; }
+    void setValue(int v) { if(this) value = v; }
+    void setParent(Node* p) { if(this) parent = p; }
+    void setSibling(Node* s) { if(this) sibling = s; }
+    void setChild(Node* c) { if(this) child = c; }
+    void setDegree(int d) { if(this) degree = d; }
 };
 
 

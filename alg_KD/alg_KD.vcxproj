@@ -139,13 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Binomial_Heap.cpp" />
+    <ClCompile Include="BinomialHeap.cpp" />
     <ClCompile Include="Complexity.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Binomial_Heap.h" />
+    <ClInclude Include="BinomialHeap.h" />
     <ClInclude Include="Complexity.h" />
     <ClInclude Include="Node.h" />
   </ItemGroup>

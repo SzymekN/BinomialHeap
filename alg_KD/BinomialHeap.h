@@ -1,5 +1,5 @@
-#ifndef BINOMIAL_HEAP_H
-#define BINOMIAL_HEAP_H
+#ifndef Binomial_Heap_H
+#define Binomial_Heap_H
 
 #include "Node.h"
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <math.h>
 
-class Binomial_Heap
+class BinomialHeap
 {
 	int size;
 	Node* root;
@@ -22,7 +22,7 @@ public:
 	void inorder(Node* root);
 	void print(Node* root, int depth=0, bool sibling=false);
 
-	Binomial_Heap() : size(0), root(nullptr) {};
+	BinomialHeap() : size(0), root(nullptr) {};
 
 };
 
@@ -37,7 +37,7 @@ void deleteHeap(Node* root);
 Funkcja tworzy pusty kopiec dwumianowy
 @return Wskaznik do kopca dwumianowego
 */
-Binomial_Heap* make_binomial_heap();
+BinomialHeap* makeBinomialHeap();
 
 /*
 Funkcja scala listy korzeni kopcow H1 i H2 w porzadku niemalejacym
@@ -45,14 +45,14 @@ Funkcja scala listy korzeni kopcow H1 i H2 w porzadku niemalejacym
 @param H2 - Wskaznik d drugiego kopca
 @return Wskaznik do listy korzeni nowo utworzonego kopca
 */
-Node* binomial_heap_merge(Binomial_Heap* H1, Binomial_Heap* H2);
+Node* binomialHeapMerge(BinomialHeap* H1, BinomialHeap* H2);
 
 /*
 Funkcja ustawia wezel n1 jako nowa glowa listy synow wezla n2
 @param n1 - Wskaznik do pierwszego wezla
 @param n2 - Wskaznik do drugiego wezla
 */
-void binomial_link(Node* n1, Node* n2);
+void binomialLink(Node* n1, Node* n2);
 
 /*
 Funkcja laczy kopce H1 i H2 w jeden kopiec
@@ -60,7 +60,7 @@ Funkcja laczy kopce H1 i H2 w jeden kopiec
 @param H2 - Wskaznik do drugiego kopca
 @return Wskaznik do nowo utworzonego kopca
 */
-Binomial_Heap* binomial_heap_union(Binomial_Heap* H1, Binomial_Heap* H2);
+BinomialHeap* binomialHeapUnion(BinomialHeap* H1, BinomialHeap* H2);
 
 /*
 Funkcja wstawia wezel do kopca dwumianowego
@@ -68,14 +68,14 @@ Funkcja wstawia wezel do kopca dwumianowego
 @param key - Wartosc klucza nowego wezla
 @return Wskaznik do kopca
 */
-Binomial_Heap* binomial_heap_insert(Binomial_Heap* H, int key);
+BinomialHeap* binomialHeapInsert(BinomialHeap* H, int key);
 
 /*
 Funkcja ta znajduje wêze³ z minimalnym kluczem w n-wêz³owym kopcu dwumianowym
 @param H - Wskaznik do kopca
 @return WskaŸnik do wêz³a z minimalnym kluczem w n-wêz³owym kopcu dwumianowym
 */
-Node* binomial_heap_minimum(Binomial_Heap* H);
+Node* binomialHeapMinimum(BinomialHeap* H);
 
 /*
 Funkcja ta nadaje kluczowi w wêŸle wskazywanym przez wskaŸnik ptr now¹ wartoœæ.
@@ -83,20 +83,20 @@ Funkcja ta nadaje kluczowi w wêŸle wskazywanym przez wskaŸnik ptr now¹ wartoœæ.
 @param ptr - WskaŸnik do wêz³a, w którym zostanie zmieniony klucz
 @param value - Nowa wartoœæ klucza
 */
-void binomial_heap_decrease_key(Binomial_Heap* H, Node* ptr, int value);
+void binomialHeapDecreaseKey(BinomialHeap* H, Node* ptr, int value);
 
 /*
 Funkcja ta znajudje, a nastêpnie usuwa wêze³ z minimalnym kluczem z kopca dwumianowego H
 @param H - Referencja do wskaŸnika na kopiec H
 @return WskaŸnik do minimalnego wêz³a
 */
-Node* binomial_heap_extract_min(Binomial_Heap*& H);
+Node* binomialHeapExtractMin(BinomialHeap*& H);
 
 /*
 Funkcja usuwa wêze³ wskazywany przez wskaŸnik ptr w kopcu dwumianowym
 @param H - Referencja do wskaŸnika na kopiec H
 @param ptr - WskaŸnik do usuwanego wêz³a
 */
-void binomial_heap_delete(Binomial_Heap*& H, Node* ptr);
+void binomialHeapDelete(BinomialHeap*& H, Node* ptr);
 
 #endif

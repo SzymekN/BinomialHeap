@@ -1,15 +1,15 @@
 #include "Complexity.h"
 
 
-Binomial_Heap_Complexity* make_binomial_heap_complexity()
+BinomialHeapComplexity* makeBinomialHeapComplexity()
 {
-	Binomial_Heap_Complexity* heap = new Binomial_Heap_Complexity();
+	BinomialHeapComplexity* heap = new BinomialHeapComplexity();
 	heap->setSize(0);
 	heap->setRoot(nullptr);
 	return heap;
 }
 
-Node* binomial_heap_merge_complexity(Binomial_Heap_Complexity* H1, Binomial_Heap_Complexity* H2, int& cnt)
+Node* binomialHeapMergeComplexity(BinomialHeapComplexity* H1, BinomialHeapComplexity* H2, int& cnt)
 {
 	Node* ptr1 = H1->getRoot();
 	Node* ptr2 = H2->getRoot();
@@ -18,11 +18,15 @@ Node* binomial_heap_merge_complexity(Binomial_Heap_Complexity* H1, Binomial_Heap
 	
 	cnt++;
 	if (ptr1 == nullptr && ptr2 == nullptr) return nullptr;
-	if (ptr1 == nullptr) {
+
+	if (ptr1 == nullptr) 
+	{
 		delete H1;
 		return ptr2;
 	}
-	if (ptr2 == nullptr) {
+
+	if (ptr2 == nullptr) 
+	{
 		delete H2;
 		return ptr1;
 	}
@@ -80,11 +84,12 @@ Node* binomial_heap_merge_complexity(Binomial_Heap_Complexity* H1, Binomial_Heap
 
 	delete H1;
 	delete H2;
-
+	H1 = nullptr;
+	H2 = nullptr;
 	return rootList;
 }
 
-void binomial_link_complexity(Node* n1, Node* n2)
+void binomialLinkComplexity(Node* n1, Node* n2)
 {
 	n1->setParent(n2);
 	n1->setSibling(n2->getChild());
@@ -92,10 +97,10 @@ void binomial_link_complexity(Node* n1, Node* n2)
 	n2->setDegree(n2->getDegree() + 1);
 }
 
-Binomial_Heap_Complexity* binomial_heap_union_complexity(Binomial_Heap_Complexity* H1, Binomial_Heap_Complexity* H2, int& cnt)
+BinomialHeapComplexity* binomialHeapUnionComplexity(BinomialHeapComplexity* H1, BinomialHeapComplexity* H2, int& cnt)
 {
-	Binomial_Heap_Complexity* newHeap = make_binomial_heap_complexity();
-	Node* rootList = binomial_heap_merge_complexity(H1, H2,cnt);
+	BinomialHeapComplexity* newHeap = makeBinomialHeapComplexity();
+	Node* rootList = binomialHeapMergeComplexity(H1, H2,cnt);
 	newHeap->setRoot(rootList);
 
 	if (newHeap->getRoot() == nullptr) return newHeap;
@@ -118,7 +123,7 @@ Binomial_Heap_Complexity* binomial_heap_union_complexity(Binomial_Heap_Complexit
 		{
 			if (root->getValue() <= rootNext->getValue()) {
 				root->setSibling(rootNext->getSibling());		// przypadek 3
-				binomial_link_complexity(rootNext, root);
+				binomialLinkComplexity(rootNext, root);
 			}
 			else {
 				if (rootPrev == nullptr) {
@@ -127,7 +132,7 @@ Binomial_Heap_Complexity* binomial_heap_union_complexity(Binomial_Heap_Complexit
 				else {
 					rootPrev->setSibling(rootNext);
 				}
-				binomial_link_complexity(root, rootNext);
+				binomialLinkComplexity(root, rootNext);
 				root = rootNext;
 			}
 		}
@@ -138,33 +143,33 @@ Binomial_Heap_Complexity* binomial_heap_union_complexity(Binomial_Heap_Complexit
 	return newHeap;
 }
 
-Binomial_Heap_Complexity* binomial_heap_insert_complexity(Binomial_Heap_Complexity* H, int key, int& cnt)
+BinomialHeapComplexity* binomialHeapInsertComplexity(BinomialHeapComplexity* H, int key, int& cnt)
 {
 	// tymczasowy kopiec z 1 wezlem
-	Binomial_Heap_Complexity* temp = make_binomial_heap_complexity();
-	Node* n = new Node(key, nullptr, nullptr, nullptr, 0);
+	BinomialHeapComplexity* temp = makeBinomialHeapComplexity();
+	Node* n = new Node(key);
 	temp->setRoot(n);
 
 	int newSize = H->getSize() + 1;
 
-	Binomial_Heap_Complexity* newHeap = binomial_heap_union_complexity(H, temp, cnt);
+	BinomialHeapComplexity* newHeap = binomialHeapUnionComplexity(H, temp, cnt);
 
 	newHeap->setSize(newSize);
 
 	return newHeap;
 }
 
-void delete_heap_complexity(Node* root, int& cnt)
+void deleteHeapComplexity(Node* root, int& cnt)
 {
-	if (root->getChild() != nullptr) delete_heap_complexity(root->getChild(), cnt);
-	if (root->getSibling() != nullptr) delete_heap_complexity(root->getSibling(), cnt);
+	if (root->getChild() != nullptr) deleteHeapComplexity(root->getChild(), cnt);
+	if (root->getSibling() != nullptr) deleteHeapComplexity(root->getSibling(), cnt);
 
 	cnt++;
 	std::cout << "Deleting: " << root->getValue() << std::endl;
 	delete root;
 }
 
-int Binomial_Heap_Complexity::getHeight()
+int BinomialHeapComplexity::getHeight()
 {
 	if (this->size)
 		return floor(log2(this->size));
@@ -172,7 +177,7 @@ int Binomial_Heap_Complexity::getHeight()
 }
 
 
-Node* binomial_heap_minimum_complexity(Binomial_Heap_Complexity* H, int& cnt)
+Node* binomialHeapMinimumComplexity(BinomialHeapComplexity* H, int& cnt)
 {
 	Node* min_ptr = nullptr;
 	Node* root = H->getRoot();
@@ -190,7 +195,7 @@ Node* binomial_heap_minimum_complexity(Binomial_Heap_Complexity* H, int& cnt)
 	return min_ptr;
 }
 
-void binomial_heap_decrease_key_complexity(Binomial_Heap_Complexity* H, Node* ptr, int value, int& cnt)
+void binomialHeapDecreaseKeyComplexity(BinomialHeapComplexity* H, Node* ptr, int value, int& cnt)
 {
 	if (value > ptr->getValue()) {
 		std::cout << "ERROR: Wrong value" << std::endl;
@@ -210,9 +215,9 @@ void binomial_heap_decrease_key_complexity(Binomial_Heap_Complexity* H, Node* pt
 	}
 }
 
-Node* binomial_heap_extract_min_complexity(Binomial_Heap_Complexity*& H, int& cnt)
+Node* binomialHeapExtractMinComplexity(BinomialHeapComplexity*& H, int& cnt)
 {
-	Node* min = binomial_heap_minimum_complexity(H,cnt);
+	Node* min = binomialHeapMinimumComplexity(H,cnt);
 	Node* tmp = H->getRoot();									//zmienna pozwalalaj¹ca na poruszanie siê po liœcie korzeni kopca H; wskaŸnik do powsta³ej listy korzeni kopca H`
 	Node* minCh = min->getChild();								//wskaŸnik do poruszania siê po liœcie synów minimalnego korzenia
 	Node* secondRoot = H->getRoot()->getSibling();				//drugi korzeñ na liœcie, potrzebny jeœli usuwan¹ wartoœci¹ jest pierwszy korzeñ
@@ -232,7 +237,7 @@ Node* binomial_heap_extract_min_complexity(Binomial_Heap_Complexity*& H, int& cn
 	}
 
 
-	Binomial_Heap_Complexity* newHeap = make_binomial_heap_complexity();
+	BinomialHeapComplexity* newHeap = makeBinomialHeapComplexity();
 
 	if (minCh != nullptr) {				//jeœli usuwany wêze³ nie jest wêz³em o stopniu zerowym
 
@@ -258,7 +263,7 @@ Node* binomial_heap_extract_min_complexity(Binomial_Heap_Complexity*& H, int& cn
 	newHeap->setRoot(tmp);
 	newHeap->setSize(pow(2, min->getDegree()) - 1);
 
-	Binomial_Heap_Complexity* heap = new Binomial_Heap_Complexity();
+	BinomialHeapComplexity* heap = new BinomialHeapComplexity();
 	if (min != H->getRoot())
 		heap = H;
 	else if (secondRoot != nullptr)				//jeœli g³owa jest najmniejszym wêz³em							
@@ -268,15 +273,15 @@ Node* binomial_heap_extract_min_complexity(Binomial_Heap_Complexity*& H, int& cn
 
 	int size = H->getSize() - 1;
 
-	H = binomial_heap_union_complexity(heap, newHeap,cnt);
+	H = binomialHeapUnionComplexity(heap, newHeap,cnt);
 
 	H->setSize(size);
 
 	return min;
 }
 
-void binomial_heap_delete_complexity(Binomial_Heap_Complexity*& H, Node* ptr,int& cnt) {
+void binomialHeapDeleteComplexity(BinomialHeapComplexity*& H, Node* ptr,int& cnt) {
 
-	binomial_heap_decrease_key_complexity(H, ptr, std::numeric_limits<int>::min(), cnt);
-	binomial_heap_extract_min_complexity(H, cnt);
+	binomialHeapDecreaseKeyComplexity(H, ptr, std::numeric_limits<int>::min(), cnt);
+	binomialHeapExtractMinComplexity(H, cnt);
 }
