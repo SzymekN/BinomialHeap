@@ -76,7 +76,8 @@ Node* binomial_heap_merge(Binomial_Heap* H1, Binomial_Heap* H2)
 
 	delete H1;
 	delete H2;
-
+	H1 = nullptr;
+	H2 = nullptr;
 	return rootList;
 }
 
@@ -249,9 +250,6 @@ Node* binomial_heap_extract_min(Binomial_Heap*& H)
 		else
 			tmp->setSibling(tmp->getSibling()->getSibling()); //usuniêcie korzenia o minimalnej wartoœci wêz³a z listy korzeni( sytuacja, w której wêze³ usuwany nie jest ostatnim korzeniem na liœcie korzeni)
 	}
-	//else {
-		
-	//}
 
 
 	Binomial_Heap* newHeap = make_binomial_heap();
@@ -263,12 +261,6 @@ Node* binomial_heap_extract_min(Binomial_Heap*& H)
 			minCh->setParent(nullptr); //zerwanie po³¹czenia z minimalnym wêz³em
 			minCh = minCh->getSibling();
 		}
-
-		/*for (int i = 0; i < tabN.size(); i++)
-		{
-			std::cout << tabN[i]->getValue() << " ";
-		}
-		std::cout << std::endl;*/
 
 		for (int i = tabN.size() - 1; i > 0; i--) {		//odwrócenie kolejnoœcie elementów na liœcie synów wêz³a minimalnego
 
