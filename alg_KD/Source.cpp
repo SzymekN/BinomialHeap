@@ -54,7 +54,7 @@ int main()
 	Node* decrease_test = H1->getRoot()->getSibling()->getSibling()->getChild()->getChild()->getChild();
 	cout << "Zamiana wartosci wezle (znajdujacym sie w drzewie dwumianowym ktorego korzen jest ostatnim na liscie korzeni) z 20 na 2";
 	binomialHeapDecreaseKey(H1, decrease_test, 2);
-	cout << "\nKopiec H1 po zmianie wartoœci klucza:\n";
+	cout << "\nKopiec H1 po zmianie wartosci klucza:\n";
 	H1->print(H1->getRoot());
 
 
@@ -189,6 +189,11 @@ int main()
 
 	cout << "Kopiec H3: " << endl;
 	H3->print(H3->getRoot());
+
+	// DELETE HEAP TEST
+	cout << endl << "------------------ DELETE HEAP TEST ------------------" << endl;
+	deleteHeap(H3->getRoot());
+
 
 	cout << endl << endl << "Funkcja test zliczajaca liczbe krokow dla wykonanych wczesniej funkcji." << endl;
 	test();
@@ -334,7 +339,7 @@ void test() {
 
 	BinomialHeapComplexity* H2 = makeBinomialHeapComplexity();
 
-	cout << endl << "---------- ZLICZANIE KROKÓW DLA DRUGIEGO KOPCA--------------" << endl;
+	cout << endl << "---------- ZLICZANIE KROKOW DLA DRUGIEGO KOPCA--------------" << endl;
 
 	H2 = binomialHeapInsertComplexity(H2, 2, cnt);
 	cout << "Liczba krokow dla wykonania pierwszej operacji insert: " << cnt << endl;
